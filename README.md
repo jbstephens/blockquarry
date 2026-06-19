@@ -12,20 +12,22 @@ Ben, Luke, Mom, Dad — pick one. Each gets their own shirt / pants / hair.
 
 **Desktop — Player 1**
 
-- `WASD` — move / dig in facing direction (S digs below feet, W digs above head)
-- `SPACE` — place selected block (hold `S` + `SPACE` to pillar up; hold `W` + `SPACE` to place overhead)
+- `A` / `D` — walk
+- `W` — **jump** (or climb ladders); tap, don't hold. If a block is directly above your head, holding W still digs it after the jump.
+- `S` — dig the block under your feet
+- `SPACE` — place the selected block at the gold-outlined target tile. Hold `S` + tap `SPACE` to pillar up; hold `W` + tap `SPACE` to place a block overhead.
 - `Q` / `E` — cycle placeable block (dirt · stone · torch · ladder · TNT)
 - `F` — use tool (opens the upgrade bench when standing next to it; otherwise drops dynamite / lights a torch)
 - `P` or `Esc` — pause
 
 **Desktop — Player 2 (Co-op)**
 
-- Arrow keys move/dig · `Enter` place · `,` / `.` cycle · `/` use
+- Arrow keys move/dig (↑ jumps) · `Enter` place · `,` / `.` cycle · `/` use
 
 **Touch (iPad)**
 
-- On-screen d-pad on the left
-- `PLACE` / `USE` / `TOOL` buttons on the right (TOOL cycles)
+- On-screen d-pad on the left — **tap UP to jump**, hold UP to climb / dig overhead
+- `PLACE` / `USE` / `TOOL` buttons on the right (TOOL cycles the placeable; the gold-outlined tile shows where it'll land)
 - Pause button top-right
 
 **Gamepads**
