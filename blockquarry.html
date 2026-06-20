@@ -160,9 +160,11 @@
     <b>Keyboard P1:</b> WASD · SPACE place · Q/E cycle · F use ·
     <b>P2 (co-op):</b> arrows · ENTER · ,/. · / · <b>Gamepads</b> supported<br>
     <span style="color:#ffd76b">CLIMBING BACK UP:</span><br>
-    <b>Ladder tower</b> (easiest): tap TOOL until <b>LADDER</b> is lit, tap PLACE (ladder drops in your tile), hold UP to climb, tap PLACE again, hold UP, repeat.<br>
-    <b>Pillar</b>: hold DOWN + tap PLACE with <b>DIRT</b> or <b>STONE</b> selected — lifts you 1 tile per tap.<br>
-    The <span style="color:#ffd76b">gold-outlined tile</span> always shows where your next PLACE will land.
+    <b>Ladder tower</b> (easiest): tap TOOL until <b>LADDER</b> is lit, tap PLACE (drops in your tile), hold UP to climb, tap PLACE, hold UP, repeat.
+    You start with <b>6 ladders</b> — buy more at the bench for just <b>2 stone</b> each batch of 5.<br>
+    <b>Pillar</b>: hold DOWN + tap PLACE with <b>DIRT</b> or <b>STONE</b> — lifts you 1 tile per tap.<br>
+    <span style="color:#7be07b">Die in adventure? You respawn back at the bench with your inventory (-50 score).</span>
+    The gold-outlined tile shows where your next PLACE will land.
   </div>
   <button id="startBtn">START</button>
   <div class="sub" id="hiLabel" style="margin-top:10px;opacity:0.6;font-size:12px;"></div>
@@ -264,7 +266,7 @@ const DYNAMITE_FUSE = 1.4;
 const DYNAMITE_RADIUS = 1;
 
 const SURFACE_TILE = 10;
-const STARTING_INV = { dirt:18, stone:8, torch:10, ladder:0, dynamite:0 };
+const STARTING_INV = { dirt:18, stone:8, torch:10, ladder:6, dynamite:0 };
 const INVENTORY_CAP = 99;
 
 // ============== BLOCK TYPES ==============
@@ -1483,7 +1485,7 @@ function respawnAt(p) {
   p.x = rx; p.y = ry;
   p.vx = 0; p.vy = 0;
   p.alive = true; p.flash = 0.6;
-  flashMsg('★ RESPAWNED — last life! ★');
+  flashMsg('★ RESPAWNED — back at the bench ★');
 }
 
 function startCollapse() {
@@ -1546,7 +1548,7 @@ const UPGRADES = [
   { id:'torches5',  name:'5× Torch',        desc:'Restock 5 torches',
     cost:{coal:1}, repeat:true, apply(p){ p.inv.torch = Math.min(p.invCap, (p.inv.torch||0)+5); } },
   { id:'ladders5',  name:'5× Ladder',       desc:'Restock 5 ladders',
-    cost:{iron:1}, repeat:true, apply(p){ p.inv.ladder = Math.min(p.invCap, (p.inv.ladder||0)+5); } },
+    cost:{stone:2}, repeat:true, apply(p){ p.inv.ladder = Math.min(p.invCap, (p.inv.ladder||0)+5); } },
   { id:'dynamite3', name:'3× Dynamite',     desc:'Restock 3 dynamite',
     cost:{copper:4, coal:2}, repeat:true, apply(p){ p.inv.dynamite = Math.min(p.invCap, (p.inv.dynamite||0)+3); } },
 ];
@@ -2192,7 +2194,9 @@ function startGame() {
   state.upgradeOpen = false; state.paused = false;
   state._fallTimer = 0; state._aSpawn = 0; state._lastLight = 0;
   state.lastDeath = null; state.hitStop = 0; state.respawning = false;
-  state.respawnsLeft = state.mode === 'creative' ? Infinity : 1;
+  // unlimited respawns — kids keep their inventory and lose 50 score per death.
+  // Collapse phase still skips respawn (do-or-die climax).
+  state.respawnsLeft = Infinity;
   aliens = []; particles = []; fallingBlocks = []; dynamites = [];
   flashText = ''; flashUntil = 0;
   resetTouchState();
