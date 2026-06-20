@@ -13,12 +13,18 @@ Ben, Luke, Mom, Dad — pick one. Each gets their own shirt / pants / hair.
 **Desktop — Player 1**
 
 - `A` / `D` — walk
-- `W` — **jump** (or climb ladders); tap, don't hold. If a block is directly above your head, holding W still digs it after the jump.
+- `W` — **context-sensitive**: if there's a solid block directly above your head, hold W to **dig overhead**. Otherwise, tap W to **jump**. Climbs ladders too.
 - `S` — dig the block under your feet
-- `SPACE` — place the selected block at the gold-outlined target tile. Hold `S` + tap `SPACE` to pillar up; hold `W` + tap `SPACE` to place a block overhead.
+- `SPACE` — place the selected block at the gold-outlined target tile. Hold `S` + tap `SPACE` to **pillar up** (places a block under you and lifts you onto it); hold `W` + tap `SPACE` to place a block overhead.
 - `Q` / `E` — cycle placeable block (dirt · stone · torch · ladder · TNT)
 - `F` — use tool (opens the upgrade bench when standing next to it; otherwise drops dynamite / lights a torch)
 - `P` or `Esc` — pause
+
+**Getting back up from a deep dig**
+
+- **Ladders:** select LADDER and tap SPACE — the ladder drops in *your own tile* so you can immediately climb it with W. Tap SPACE → W → SPACE → W to ladder-tower upward.
+- **Pillar:** hold S + tap SPACE with DIRT or STONE selected. Places a block under your feet and lifts you onto it. Repeat to climb.
+- **Mining staircase:** dig the block to your right (hold D), step into the gap, hold W to dig the block above, tap W to jump up. Repeat to spiral upward.
 
 **Desktop — Player 2 (Co-op)**
 
