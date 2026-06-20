@@ -1622,7 +1622,8 @@ function buildTileCanvases() {
   for (const k of Object.keys(BLOCK)) {
     const tn = +k;
     const b = BLOCK[tn];
-    if (!b.color) continue;
+    // skip tiles drawn via their own helper (TORCH, SAMMY) or not drawn at all (AIR, DYNAMITE)
+    if (!b.color && tn !== T.LADDER) continue;
     const c = document.createElement('canvas'); c.width = TILE; c.height = TILE;
     drawBlockTo(c.getContext('2d'), tn);
     tileCanvas[tn] = c;
@@ -1630,6 +1631,19 @@ function buildTileCanvases() {
 }
 function drawBlockTo(cx, t) {
   const b = BLOCK[t];
+  // LADDER first — transparent background so it can sit inside any tile (incl. the player's)
+  if (t === T.LADDER) {
+    cx.clearRect(0,0,TILE,TILE);
+    cx.fillStyle = '#5a3a18';
+    cx.fillRect(3, 0, 4, TILE);              // left rail
+    cx.fillRect(TILE-7, 0, 4, TILE);         // right rail
+    cx.fillStyle = '#8b5a25';                // rail highlight
+    cx.fillRect(3, 0, 1, TILE);
+    cx.fillRect(TILE-7, 0, 1, TILE);
+    cx.fillStyle = '#7a4a25';                // rungs
+    for (let i=0;i<4;i++) cx.fillRect(3, 2 + i*6, TILE-6, 2);
+    return;
+  }
   cx.fillStyle = b.color; cx.fillRect(0,0,TILE,TILE);
   if (b.hi) { cx.fillStyle = b.hi; cx.fillRect(0,0,TILE,3); cx.fillRect(0,0,3,TILE); }
   if (b.lo) { cx.fillStyle = b.lo; cx.fillRect(0,TILE-3,TILE,3); cx.fillRect(TILE-3,0,3,TILE); }
@@ -1667,14 +1681,6 @@ function drawBlockTo(cx, t) {
     cx.fillStyle = '#8b5a25'; cx.fillRect(2,4,TILE-4,TILE-6);
     cx.fillStyle = '#dba85a'; cx.fillRect(2,4,TILE-4,4);
     cx.fillStyle = '#222'; cx.fillRect(TILE/2-2, 10, 4, 4);
-  }
-  if (t === T.LADDER) {
-    cx.clearRect(0,0,TILE,TILE);
-    cx.fillStyle = 'rgba(0,0,0,0.0)'; cx.fillRect(0,0,TILE,TILE);
-    cx.fillStyle = '#7a4a25';
-    cx.fillRect(4, 0, 3, TILE);
-    cx.fillRect(TILE-7, 0, 3, TILE);
-    for (let i=0;i<3;i++) cx.fillRect(4, 4 + i*7, TILE-8, 2);
   }
 }
 
@@ -2206,7 +2212,7 @@ function startGame() {
   }
   if (state.mode === 'creative') {
     players[0].tier = 3;
-    players[0].hasDrill = true;
+    // intentionally NOT enabling drill — sandbox should mine one block at a time
     for (const k of ['torch','ladder','dynamite','dirt','stone']) players[0].inv[k] = 99;
   }
   edgeState[0] = {}; edgeState[1] = {};
