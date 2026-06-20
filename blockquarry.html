@@ -1921,15 +1921,50 @@ function draw() {
 
   drawDarkness(cam);
 
-  // bench hint
-  for (const p of players) {
-    if (isAtBench(p) && !state.upgradeOpen) {
-      ctx.fillStyle = 'rgba(0,0,0,0.65)';
-      ctx.fillRect(6, VH - 56, 260, 22);
+  // bench hint — big pulsing banner when standing at it, plus an off-screen
+  // arrow on the HUD when the bench isn't in view so kids can find it.
+  const focusForBench = players.find(p=>p.alive) || players[0];
+  if (focusForBench && !state.upgradeOpen && !state.collapsing) {
+    const atBench = isAtBench(focusForBench);
+    if (atBench) {
+      const pulse = 0.7 + 0.3 * Math.sin(state.time * 6);
+      const label = isTouch ? '👉 TAP the green USE button to SHOP'
+                            : 'PRESS F to OPEN UPGRADE BENCH';
+      ctx.font = 'bold 18px -apple-system, sans-serif';
+      const tw = ctx.measureText(label).width;
+      ctx.fillStyle = `rgba(0,0,0,${(0.75 * pulse).toFixed(2)})`;
+      ctx.fillRect(VW/2 - tw/2 - 14, VH - 78, tw + 28, 30);
+      ctx.strokeStyle = `rgba(255,215,107,${pulse.toFixed(2)})`;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(VW/2 - tw/2 - 14, VH - 78, tw + 28, 30);
       ctx.fillStyle = '#ffd76b';
-      ctx.font = 'bold 12px -apple-system, sans-serif';
-      ctx.fillText('UPGRADE BENCH — press USE / F', 14, VH - 41);
-      break;
+      ctx.textAlign = 'center';
+      ctx.fillText(label, VW/2, VH - 58);
+      ctx.textAlign = 'left';
+    } else {
+      // off-screen pointer toward the bench (only when on the surface-ish)
+      const benchPx = benchX * TILE + TILE;
+      const benchPy = (SURFACE_TILE - 1) * TILE;
+      const screenBx = benchPx - cam.x;
+      const screenBy = benchPy - cam.y;
+      const onScreen = screenBx >= 0 && screenBx <= VW && screenBy >= 0 && screenBy <= VH;
+      const focusDepth = Math.max(0, Math.floor(focusForBench.y/TILE) - SURFACE_TILE);
+      if (!onScreen && focusDepth < 14) {
+        // small chevron at the screen edge pointing toward the bench
+        const dx = benchPx - (focusForBench.x + focusForBench.w/2);
+        const arrowX = dx < 0 ? 30 : VW - 30;
+        const arrowY = 60;
+        const dir = dx < 0 ? -1 : 1;
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.fillRect(arrowX - 60, arrowY - 16, 120, 32);
+        ctx.fillStyle = '#ffd76b';
+        ctx.font = 'bold 12px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('BENCH', arrowX, arrowY - 2);
+        ctx.font = 'bold 18px -apple-system, sans-serif';
+        ctx.fillText(dir < 0 ? '◀' : '▶', arrowX + dir*22, arrowY + 4);
+        ctx.textAlign = 'left';
+      }
     }
   }
 
