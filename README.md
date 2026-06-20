@@ -22,9 +22,11 @@ Ben, Luke, Mom, Dad — pick one. Each gets their own shirt / pants / hair.
 
 **Getting back up from a deep dig**
 
-- **Ladders:** select LADDER and tap SPACE — the ladder drops in *your own tile* so you can immediately climb it with W. Tap SPACE → W → SPACE → W to ladder-tower upward.
-- **Pillar:** hold S + tap SPACE with DIRT or STONE selected. Places a block under your feet and lifts you onto it. Repeat to climb.
-- **Mining staircase:** dig the block to your right (hold D), step into the gap, hold W to dig the block above, tap W to jump up. Repeat to spiral upward.
+Digging is strictly adjacent, so there's no "mining staircase" — to gain height you must either ladder or pillar:
+
+- **Ladders (easiest):** select LADDER (tap TOOL on iPad / press Q-E on desktop until LADDER is lit), tap PLACE (`SPACE`). The ladder drops in *your own tile*. Hold UP (`W` / d-pad UP) to climb one tile. Tap PLACE again, hold UP again. Repeat — you tower upward.
+- **Pillar:** hold DOWN (`S` / d-pad DOWN) + tap PLACE (`SPACE`) with DIRT or STONE selected. Places a block under your feet and lifts you onto it. Each tap = +1 tile up.
+- **Dynamite** can blow a quick 3×3 escape hole in any direction if you're really stuck.
 
 **Desktop — Player 2 (Co-op)**
 
